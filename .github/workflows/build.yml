@@ -3,24 +3,15 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip libffi-dev build-essential libssl-dev cython3
-
       - name: Build with Buildozer
-        run: |
-          pip install buildozer
-          buildozer -v android debug
+        uses: akshay2211/buildozer-action@v1.0.1
+        with:
+          workdir: .
+          buildozer_version: master
 
       - name: Upload APK
         uses: actions/upload-artifact@v3
